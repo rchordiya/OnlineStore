@@ -1,0 +1,13 @@
+<div>
+    <h2>Store List: </h2>
+    {% if not storeList %}
+        <h3>Sorry We are not present at your Location!!!</h3>
+    {% endif %}
+    {% for mystore in storeList %}
+       <a href= "storecontains/{{ mystore.2 }}">
+           <p> {{ mystore.2 }} </p>
+           <p>Name of Store: {{ mystore.0 }}</p>
+           <p>Address of Store: {{ mystore.1 }}</p></br>
+       </a>
+    {% endfor %}
+</div>

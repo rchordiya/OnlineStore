@@ -1,6 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
     <div>
-        <button class="button">Locate Me</button>
+        <h3>Search for the Location</h3>
+        <form method="GET" action="/searchedlocation/">
+            {% csrf_token %}
+            Enter Location: <input type="text" name="locationentered"><br>
+        <input type="submit">
+        </form>
     </div>
+
+    <div>
+
+        <h3>To Locate your position press this below button</h3>
+        <button action = "GET" onclick="getLocation()">Locate Me</button>
+
+        <p id="demo"></p>
+
+        <script>
+        $.extend(
+        {
+            redirectPost: function(location, args)
+            {
+                var form = "{% csrf_token %}";
+                $.each( args, function( key, value ) {
+                    form += '<input type="hidden" name="'+key+'" value="'+value+'">';
+
+                });
+                $('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
+            }
+        });
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            $.redirectPost("/searchedlocation/", {lat: position.coords.latitude , long: position.coords.longitude})
+        }
+        </script>
+
+    </div>
+
+
+
+
+
 {% endblock %}
